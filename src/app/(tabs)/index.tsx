@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
 import { View } from '@/src/components/Themed';
 
@@ -8,15 +8,20 @@ import ProductListItem from '@/src/components/ProductListItem';
 export default function MenuScreen() {
   return (
     <View>
-      <ProductListItem product={products[1]} />
-      <ProductListItem product={products[0]} />
+      <FlatList
+        data={products}
+        renderItem={({ item }) => <ProductListItem product={item} />}
+        numColumns={2}
+        contentContainerStyle={{ gap: 10, padding: 10 }}
+        columnWrapperStyle={{ gap: 10 }}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: 'red',
     padding: 10,
   },
   separator: {
