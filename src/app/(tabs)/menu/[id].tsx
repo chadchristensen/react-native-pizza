@@ -1,15 +1,19 @@
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 
 import { Text, View, Image, StyleSheet, Pressable } from 'react-native';
 import products from '@/assets/data/products';
-import { defaultPizzaImage } from '@/src/components/ProductListItem';
+import { defaultPizzaImage } from '@/src/constants/Images';
 import Button from '@/src/components/Button';
 import { useState } from 'react';
-const sizes = ['S', 'M', 'L', 'XL'];
+import { useCart } from '@/src/providers/CartProvider';
+import { PizzaSize } from '@/src/types';
+const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL'];
 
 const ProductDetailsView = () => {
     const { id } = useLocalSearchParams();
-    const [selectedSize, setSelectedSize] = useState('M');
+    const { onAddItem } = useCart();
+
+    const [selectedSize, setSelectedSize] = useState<PizzaSize>('M');
 
     const product = products.find((product) => product.id.toString() === id);
 
@@ -18,7 +22,10 @@ const ProductDetailsView = () => {
     }
 
     const addToCart = () => {
-        console.warn('Adding to cart', selectedSize);
+        if (!product) return;
+
+        onAddItem(product, selectedSize);
+        router.push('/cart');
     }
 
     return (
