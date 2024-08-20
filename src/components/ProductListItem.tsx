@@ -1,16 +1,19 @@
-import { View, Text, Image, StyleSheet } from "react-native"
+import { View, Text, Image, StyleSheet, Pressable } from "react-native"
 import Colors from "@/src/constants/Colors";
 import { Product } from "@/src/types";
+import { Link } from "expo-router";
 
 export const defaultPizzaImage = 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png'
 
 const ProductListItem = ({ product }: { product: Product }) => {
     return (
-        <View style={styles.container}>
-            <Image source={{ uri: product.image || defaultPizzaImage }} alt={product.name} style={styles.image} />
-            <Text style={styles.title}>{product.name}</Text>
-            <Text style={styles.price}>${product.price}</Text>
-        </View>
+        <Link href={`/${product.id}`} asChild>
+            <Pressable style={styles.container}>
+                <Image source={{ uri: product.image || defaultPizzaImage }} alt={product.name} style={styles.image} />
+                <Text style={styles.title}>{product.name}</Text>
+                <Text style={styles.price}>${product.price}</Text>
+            </Pressable>
+        </Link>
     )
 }
 
